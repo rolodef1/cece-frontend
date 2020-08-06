@@ -21,22 +21,19 @@
           <v-container>
             <v-row>
               <v-col cols="12" sm="6">
-                <v-text-field label="Nombre*" required />
+                <v-text-field v-model="form.first_name" label="Nombre*" required />
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field label="Apellido*" required />
+                <v-text-field v-model="form.last_name" label="Apellido*" required />
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field label="Cédula*" required />
+                <v-text-field v-model="form.cedula" label="Cédula*" required />
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field label="Celular*" required />
+                <v-text-field v-model="form.mobile" label="Celular*" required />
               </v-col>
               <v-col cols="12" sm="6">
-                <v-text-field label="Email*" required />
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field label="Ciudad*" required />
+                <v-text-field v-model="form.email" label="Email*" required />
               </v-col>
             </v-row>
           </v-container>
@@ -44,10 +41,10 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn color="blue darken-1" text @click="dialog = false">
+          <v-btn color="blue darken-1" text @click="close()">
             Cerrar
           </v-btn>
-          <v-btn color="blue darken-1" text @click="dialog = false">
+          <v-btn color="blue darken-1" text @click="save()">
             Enviar
           </v-btn>
         </v-card-actions>
@@ -62,8 +59,30 @@ export default {
     dialog: { type: Boolean, default: false }
   },
   data: () => ({
-
-  })
+    form: {
+      first_name: '',
+      last_name: '',
+      cedula: '',
+      mobile: '',
+      email: ''
+    }
+  }),
+  methods: {
+    async save () {
+      try {
+        await this.$strapi.create('contacts', this.form)
+        this.$emit('saved')
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.close()
+      }
+    },
+    close () {
+      this.dialog = false
+      this.$emit('closed')
+    }
+  }
 }
 </script>
 

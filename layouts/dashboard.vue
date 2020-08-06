@@ -7,7 +7,7 @@
       fixed
       app
     >
-      <v-list>
+      <v-list v-if="$strapi.user">
         <v-list-item
           v-for="(item, i) in items"
           :key="i"
@@ -20,6 +20,18 @@
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title v-text="item.title" />
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          router
+          exact
+          @click="logout()"
+        >
+          <v-list-item-action>
+            <v-icon>mdi-logout</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            Cerrar sesión
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -49,36 +61,12 @@
         <v-icon>mdi-minus</v-icon>
       </v-btn>
       <v-toolbar-title v-text="title" />
-      <v-spacer />
-      <v-btn
-        icon
-        @click.stop="rightDrawer = !rightDrawer"
-      >
-        <v-icon>mdi-menu</v-icon>
-      </v-btn>
     </v-app-bar>
-    <v-content>
+    <v-main>
       <v-container>
         <nuxt />
       </v-container>
-    </v-content>
-    <v-navigation-drawer
-      v-model="rightDrawer"
-      :right="right"
-      temporary
-      fixed
-    >
-      <v-list>
-        <v-list-item @click.native="right = !right">
-          <v-list-item-action>
-            <v-icon light>
-              mdi-repeat
-            </v-icon>
-          </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
+    </v-main>
     <v-footer
       :absolute="!fixed"
       app
@@ -98,19 +86,31 @@ export default {
       items: [
         {
           icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/'
+          title: 'Bienvenido',
+          to: '/dashboard'
         },
         {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
+          icon: 'mdi-account',
+          title: 'Mi perfil',
+          to: '/dashboard/me'
+        },
+        {
+          icon: 'mdi-sale',
+          title: 'Mis promociones',
+          to: '/dashboard/promotions'
         }
       ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Vuetify.js'
+      title: 'Cyberday.ec'
+    }
+  },
+  methods: {
+    async logout () {
+      await this.$strapi.logout()
+      this.$strapi.clearToken()
+      this.$router.go({ path: '/login' })
     }
   }
 }

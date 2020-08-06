@@ -15,7 +15,7 @@
           align="center"
         >
           <span class="black--text">Recibe las mejores ofertas para ti!.</span>
-          <Newsletter :dialog="showNewsletter" />
+          <Newsletter :dialog="showNewsletterDialog" @saved="subscribed()" @closed="showNewsletterDialog = false"/>
         </v-alert>
         <v-row>
           <v-col xs="12" sm="6">
@@ -43,7 +43,7 @@
             </div>
           </v-col>
         </v-row>
-        <Register :dialog="showRegister" />
+        <Register v-if="showRegisterBtn" :dialog="showRegisterDialog" @saved="registered()" @closed="showRegisterDialog = false"/>
       </v-container>
       <v-card class="overflow-hidden">
         <v-app-bar
@@ -128,6 +128,26 @@
           </v-footer>
         </v-sheet>
       </v-card>
+      <div class="text-center ma-2">
+        <v-snackbar
+          v-model="message.show"
+          :color="message.color"
+          top="true"
+          right="true"
+          multi-line="true"
+        >
+          {{ message.text }}
+          <template v-slot:action="{ attrs }">
+            <v-btn
+              text
+              v-bind="attrs"
+              @click="message.show = false"
+            >
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+          </template>
+        </v-snackbar>
+      </div>
     </v-main>
   </v-app>
 </template>
@@ -149,7 +169,7 @@ export default {
     this.categories = await fetch(this.apiUrl + '/categories?_sort=priority:ASC').then(res =>
       res.json()
     )
-    this.categories.unshift({ id: 0, Name: 'Todas', Icon: 'mdi-tag' })
+    this.categories.unshift({ id: 0, Name: 'Todas', Icon: 'mdi-sale' })
     this.configuration = await fetch(this.apiUrl + '/configuration').then(res =>
       res.json()
     )
@@ -157,8 +177,9 @@ export default {
   data () {
     return {
       showSuscriberMsg: true,
-      showRegister: false,
-      showNewsletter: false,
+      showRegisterDialog: false,
+      showRegisterBtn: true,
+      showNewsletterDialog: false,
       categories: [],
       configuration: null,
       apiUrl: '',
@@ -169,7 +190,12 @@ export default {
         { id: 4, src: '/uploads/logo_uees_a57591d582.jpeg' },
         { id: 5, src: '/uploads/logo_cisneros_36f793843d.jpeg' },
         { id: 6, src: '/uploads/logo_cece_82d62f49e6.jpeg' }
-      ]
+      ],
+      message: {
+        show: false,
+        text: '',
+        color: 'info'
+      }
     }
   },
   computed: {
@@ -204,6 +230,16 @@ export default {
   },
   created () {
     this.apiUrl = process.env.apiUrl
+  },
+  methods: {
+    registered () {
+      this.$set(this, 'message', { show: true, text: 'Registro exitoso', color: 'success' })
+      this.showRegisterBtn = false
+    },
+    subscribed () {
+      this.$set(this, 'message', { show: true, text: 'Subscrito de forma exitosa', color: 'success' })
+      this.showSuscriberMsg = false
+    }
   }
 }
 </script>
