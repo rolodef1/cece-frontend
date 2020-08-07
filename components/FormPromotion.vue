@@ -84,7 +84,6 @@ export default {
           formData.append('files.' + field, file, file.name)
         }
       }
-      data.brand = this.brand.id
       formData.append('data', JSON.stringify(data))
       try {
         if (!this.edit) {

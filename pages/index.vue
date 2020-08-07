@@ -68,45 +68,45 @@
           </v-layout>
         </v-container>
       </div>
+      <v-dialog v-model="dialogPromotions" width="400px">
+        <v-carousel
+          cycle
+          widht="400px"
+          hide-delimiter-background
+          show-arrows-on-hover
+        >
+          <v-carousel-item
+            v-for="promotion in promotions"
+            :key="promotion.id"
+            :src="apiUrl + promotion.image.url"
+            :href="promotion.url"
+            target="_blank"
+            reverse-transition="fade-transition"
+            transition="fade-transition"
+          />
+        </v-carousel>
+      </v-dialog>
+      <div class="text-center ma-2">
+        <v-snackbar
+          v-model="message.show"
+          :color="message.color"
+          top="true"
+          right="true"
+          multi-line="true"
+        >
+          {{ message.text }}
+          <template v-slot:action="{ attrs }">
+            <v-btn
+              text
+              v-bind="attrs"
+              @click="message.show = false"
+            >
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+          </template>
+        </v-snackbar>
+      </div>
     </v-flex>
-    <v-dialog v-model="dialogPromotions" width="400px">
-      <v-carousel
-        cycle
-        widht="400px"
-        hide-delimiter-background
-        show-arrows-on-hover
-      >
-        <v-carousel-item
-          v-for="promotion in promotions"
-          :key="promotion.id"
-          :src="apiUrl + promotion.image.url"
-          :href="promotion.url"
-          target="_blank"
-          reverse-transition="fade-transition"
-          transition="fade-transition"
-        />
-      </v-carousel>
-    </v-dialog>
-    <div class="text-center ma-2">
-      <v-snackbar
-        v-model="message.show"
-        :color="message.color"
-        top="true"
-        right="true"
-        multi-line="true"
-      >
-        {{ message.text }}
-        <template v-slot:action="{ attrs }">
-          <v-btn
-            text
-            v-bind="attrs"
-            @click="message.show = false"
-          >
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </template>
-      </v-snackbar>
-    </div>
   </v-layout>
 </template>
 

@@ -60,7 +60,7 @@
             show-arrows
             icons-and-text
           >
-            <v-tabs-slider color="info" />
+            <v-tabs-slider color="lime" />
             <v-tab
               v-for="category in categories"
               :key="category.id"
@@ -68,8 +68,8 @@
               :to="category.id==0?'/':`/${category.id}`"
               class="tab"
             >
-              {{ category.Name }}
-              <v-icon>{{ category.Icon }}</v-icon>
+              <span class="purple--text">{{ category.Name }}</span>
+              <v-icon color="purple">{{ category.Icon }}</v-icon>
             </v-tab>
           </v-tabs>
         </v-app-bar>
@@ -97,11 +97,10 @@
                 <v-card-text class="white--text">
                   <v-layout row wrap>
                     <v-flex
-                      v-for="coorganizador in coorganizadores"
-                      :key="coorganizador.id"
+                      v-for="(coorganizador, id) in configuration.coorganizadores"
+                      :key="id"
                       xs6
                       md3
-                      lg2
                     >
                       <v-img
                         :src="apiUrl + coorganizador.src"
@@ -183,14 +182,6 @@ export default {
       categories: [],
       configuration: null,
       apiUrl: '',
-      coorganizadores: [
-        { id: 1, src: '/uploads/logo_cece_82d62f49e6.jpeg' },
-        { id: 2, src: '/uploads/logo_ccq_acfd5da570.jpeg' },
-        { id: 3, src: '/uploads/logo_cig_c3e9086024.jpeg' },
-        { id: 4, src: '/uploads/logo_uees_a57591d582.jpeg' },
-        { id: 5, src: '/uploads/logo_cisneros_36f793843d.jpeg' },
-        { id: 6, src: '/uploads/logo_cece_82d62f49e6.jpeg' }
-      ],
       message: {
         show: false,
         text: '',
@@ -261,7 +252,7 @@ export default {
     width:60%;
   }
   .sheet{
-    max-height: 790px;
+    max-height: 780px;
   }
 
   @media (max-width: 600px) {
@@ -281,7 +272,7 @@ export default {
       width:85%;
     }
     .sheet{
-      max-height: 820px;
+      max-height: 680px;
     }
   }
 </style>
