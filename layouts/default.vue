@@ -19,7 +19,7 @@
         </v-alert>
         <v-row>
           <v-col xs="12" sm="6">
-            <v-img :src="apiUrl+configuration.logo.url" class="logo my-0 mx-auto" />
+            <v-img :src="configuration.logo.url" class="logo my-0 mx-auto" />
           </v-col>
           <v-col xs="12" sm="6">
             <div v-if="promoIsActive">
@@ -39,7 +39,7 @@
               </client-only>
             </div>
             <div v-else>
-              <v-img :src="apiUrl+comunicationsFiles.fecha_texto" class="fecha my-0 mx-auto" />
+              <v-img :src="comunicationsFiles.fecha_texto" class="fecha my-0 mx-auto" />
             </div>
           </v-col>
         </v-row>
@@ -91,7 +91,7 @@
                 class="white white--text text-center"
               >
                 <v-card-text class="black--text">
-                  <h1>Co-organiza</h1>
+                  <h1>Entidades de apoyo</h1>
                 </v-card-text>
                 <v-divider />
                 <v-card-text class="white--text">
@@ -103,7 +103,7 @@
                       md3
                     >
                       <v-img
-                        :src="apiUrl + coorganizador.src"
+                        :src="coorganizador.src"
                       />
                     </v-flex>
                   </v-layout>
@@ -131,9 +131,9 @@
         <v-snackbar
           v-model="message.show"
           :color="message.color"
-          top="true"
-          right="true"
-          multi-line="true"
+          :top="true"
+          :right="true"
+          :multi-line="true"
         >
           {{ message.text }}
           <template v-slot:action="{ attrs }">
@@ -214,8 +214,8 @@ export default {
     },
     headerStyles () {
       return {
-        '--header-background': `url(${this.apiUrl + this.backgroundsFiles.fondo})`,
-        '--header-background-responsive': `url(${this.apiUrl + this.backgroundsFiles.fondo_responsive})`
+        '--header-background': `url(${this.backgroundsFiles.fondo})`,
+        '--header-background-responsive': `url(${this.backgroundsFiles.fondo_responsive})`
       }
     }
   },

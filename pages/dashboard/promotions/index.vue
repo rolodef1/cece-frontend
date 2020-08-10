@@ -30,7 +30,7 @@
                   class="transition-swing"
                 >
                   <v-img
-                    :src="apiUrl + promotion.image.url"
+                    :src="promotion.image.url"
                   />
                   <v-fade-transition>
                     <v-overlay

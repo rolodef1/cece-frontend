@@ -19,7 +19,7 @@
                   class="transition-swing"
                 >
                   <v-img
-                    :src="apiUrl + brand.logo.url"
+                    :src="brand.logo.url"
                     class="white--text align-end"
                   />
                   <v-fade-transition>
@@ -53,7 +53,7 @@
         <v-carousel-item
           v-for="promotion in promotions"
           :key="promotion.id"
-          :src="apiUrl + promotion.image.url"
+          :src="promotion.image.url"
           :href="promotion.url"
           target="_blank"
           reverse-transition="fade-transition"
@@ -65,9 +65,9 @@
       <v-snackbar
         v-model="message.show"
         :color="message.color"
-        top="true"
-        right="true"
-        multi-line="true"
+        :top="true"
+        :right="true"
+        :multi-line="true"
       >
         {{ message.text }}
         <template v-slot:action="{ attrs }">

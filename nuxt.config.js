@@ -3,8 +3,7 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   env: {
     baseUrl: process.env.BASE_URL || 'http://localhost:3000',
-    //apiUrl: 'http://10.99.101.26:1337',
-    apiUrl: 'http://localhost:1337'
+    apiUrl: 'https://cyber-cece.herokuapp.com'
   },
   /*
   ** Nuxt rendering mode

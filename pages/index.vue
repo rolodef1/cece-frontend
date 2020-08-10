@@ -18,11 +18,11 @@
               <a :href="plan.ad_url" target="_blank">
                 <v-img
                   class="d-none d-md-block"
-                  :src="apiUrl + plansAdsFiles[plan.id].ad"
+                  :src="plansAdsFiles[plan.id].ad"
                 />
                 <v-img
                   class="d-flex d-md-none"
-                  :src="apiUrl + plansAdsFiles[plan.id].ad_responsive"
+                  :src="plansAdsFiles[plan.id].ad_responsive"
                 />
               </a>
             </v-flex>
@@ -44,7 +44,7 @@
                     class="transition-swing"
                   >
                     <v-img
-                      :src="apiUrl + brand.logo.url"
+                      :src="brand.logo.url"
                       class="white--text align-end"
                     />
                     <v-fade-transition>
@@ -78,7 +78,7 @@
           <v-carousel-item
             v-for="promotion in promotions"
             :key="promotion.id"
-            :src="apiUrl + promotion.image.url"
+            :src="promotion.image.url"
             :href="promotion.url"
             target="_blank"
             reverse-transition="fade-transition"
@@ -90,9 +90,9 @@
         <v-snackbar
           v-model="message.show"
           :color="message.color"
-          top="true"
-          right="true"
-          multi-line="true"
+          :top="true"
+          :right="true"
+          :multi-line="true"
         >
           {{ message.text }}
           <template v-slot:action="{ attrs }">
@@ -166,7 +166,7 @@ export default {
       this.plans.forEach((plan) => {
         plansStyles[plan.id] = {
           'background-repeat': 'repeat',
-          background: `url(${this.apiUrl + this.plansBackgroundsFiles[plan.id].fondo})`
+          background: `url(${this.plansBackgroundsFiles[plan.id].fondo})`
         }
       })
       return plansStyles

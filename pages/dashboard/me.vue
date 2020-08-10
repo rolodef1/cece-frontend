@@ -15,7 +15,7 @@
                       <v-avatar tile width="80%" height="100%">
                         <v-img
                           v-if="!!brand.logo"
-                          :src="apiUrl + brand.logo.url"
+                          :src="brand.logo.url"
                         />
                         <v-icon v-else size="64">mdi-account-circle</v-icon>
                       </v-avatar>
@@ -54,9 +54,9 @@
         <v-snackbar
           v-model="message.show"
           :color="message.color"
-          top="true"
-          right="true"
-          multi-line="true"
+          :top="true"
+          :right="true"
+          :multi-line="true"
         >
           {{ message.text }}
           <template v-slot:action="{ attrs }">
