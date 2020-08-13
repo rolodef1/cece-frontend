@@ -243,7 +243,7 @@ export default {
     width:80%;
   }
   .fecha{
-    width:60%;
+    width:70%;
   }
   .register{
     width:30%;

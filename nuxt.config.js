@@ -4,6 +4,7 @@ export default {
   env: {
     baseUrl: process.env.BASE_URL || 'http://localhost:3000',
     apiUrl: 'https://cyber-cece.herokuapp.com'
+    //apiUrl: 'http://localhost:1337'
   },
   /*
   ** Nuxt rendering mode
@@ -105,7 +106,7 @@ export default {
   build: {
   },
   strapi: {
-
+    url: 'https://cyber-cece.herokuapp.com'
   },
   server: {
     /*port: 3000,

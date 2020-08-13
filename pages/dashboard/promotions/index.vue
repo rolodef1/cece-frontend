@@ -5,6 +5,7 @@
         <v-layout>
           <v-flex xs12 class="text-center">
             <v-btn
+              v-if="promotions.length<5"
               color="info"
               rounded
               @click="createPromotion()"
@@ -56,8 +57,28 @@
             <h3>No hay registros a mostrar</h3>
           </v-flex>
         </v-layout>
-        <FormPromotion v-bind="bindForm" @saved="refreshPromotions()" @closed="showForm = false"/>
+        <FormPromotion v-bind="bindForm" @saved="refreshPromotions()" @closed="showForm = false" />
       </v-container>
+      <div class="text-center ma-2">
+        <v-snackbar
+          v-model="message.show"
+          :color="message.color"
+          :top="true"
+          :right="true"
+          :multi-line="true"
+        >
+          {{ message.text }}
+          <template v-slot:action="{ attrs }">
+            <v-btn
+              text
+              v-bind="attrs"
+              @click="message.show = false"
+            >
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+          </template>
+        </v-snackbar>
+      </div>
     </v-flex>
   </v-layout>
 </template>
@@ -88,7 +109,12 @@ export default {
       apiUrl: '',
       promotionToEdit: null,
       editForm: false,
-      showForm: false
+      showForm: false,
+      message: {
+        show: false,
+        text: '',
+        color: 'info'
+      }
     }
   },
   computed: {

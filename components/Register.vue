@@ -20,6 +20,11 @@
         <v-card-text>
           <v-container>
             <v-row>
+              <v-col cols="12">
+                <v-img src="https://s3.sa-east-1.amazonaws.com/media.cyberday.ec/promo_registrate_53557f3d62.png" class="my-0 mx-auto" />
+              </v-col>
+            </v-row>
+            <v-row>
               <v-col cols="12" sm="6">
                 <v-text-field v-model="form.first_name" label="Nombre*" required />
               </v-col>
