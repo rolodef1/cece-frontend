@@ -70,26 +70,6 @@
           </v-card-actions>
         </v-form>
       </v-card>
-      <div class="text-center ma-2">
-        <v-snackbar
-          v-model="message.show"
-          :color="message.color"
-          :top="true"
-          :right="true"
-          :multi-line="true"
-        >
-          <div v-html="message.text"></div>
-          <template v-slot:action="{ attrs }">
-            <v-btn
-              text
-              v-bind="attrs"
-              @click="message.show = false"
-            >
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
-          </template>
-        </v-snackbar>
-      </div>
     </v-flex>
   </v-layout>
 </template>
@@ -117,12 +97,7 @@ export default {
         url: ['required']
       },
       apiUrl: '',
-      showFileInput: false,
-      message: {
-        show: false,
-        text: '',
-        color: 'info'
-      }
+      showFileInput: false
     }
   },
   created () {
@@ -130,7 +105,7 @@ export default {
   },
   methods: {
     initForm () {
-      const form = { Name: this.brand.Name, url: this.brand.url }
+      const form = { Name: this.brand.Name, url: this.brand.url, logo: this.brand.logo }
       this.$set(this, 'form', form)
     },
     async validForm () {
@@ -171,7 +146,7 @@ export default {
           messageAlert = messageAlert + '<li>' + message + '</li>'
         }
         messageAlert = messageAlert + '</ul>'
-        this.$set(this, 'message', { show: true, text: messageAlert, color: 'error' })
+        this.$store.commit('setMessage', { show: true, text: messageAlert, color: 'error' })
       }
       const validFormArr = Object.values(validForm)
       return !validFormArr.some(item => item === false)
@@ -227,7 +202,7 @@ export default {
         try {
           const result = await this.$strapi.update('brands', this.brand.id, formData)
           this.$set(this, 'brand', result)
-          this.$set(this, 'message', { show: true, text: 'La información fue actualizada de forma exitosa', color: 'success' })
+          this.$store.commit('setMessage', { show: true, text: 'La información fue actualizada de forma exitosa', color: 'success' })
         } catch (error) {
           console.log(error)
         }

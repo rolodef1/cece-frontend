@@ -70,17 +70,70 @@ export default {
       cedula: '',
       mobile: '',
       email: ''
+    },
+    formValidation: {
+      first_name: ['required'],
+      last_name: ['required'],
+      cedula: ['required'],
+      mobile: ['required'],
+      email: ['required']
     }
   }),
   methods: {
+    async validForm () {
+      const validForm = {}
+      const messages = []
+      for (const fieldValidation in this.formValidation) {
+        const validations = this.formValidation[fieldValidation]
+        for (const validation of validations) {
+          const validationParts = validation.split(':')
+          const criterio = validationParts[0]
+          const data = validationParts[1]
+          switch (criterio) {
+            case 'required':
+              if ([undefined, null, ''].includes(this.form[fieldValidation])) {
+                validForm[fieldValidation] = false
+                messages.push('El campo ' + fieldValidation + ' es requerido')
+              } else {
+                validForm[fieldValidation] = true
+              }
+              break
+            case 'dimensions':
+              if (this.edit && !this.imageChanged) {
+                validForm[fieldValidation] = true
+              } else if (await this.imageValid(this.form[fieldValidation], data)) {
+                validForm[fieldValidation] = true
+              } else {
+                validForm[fieldValidation] = false
+                messages.push('El campo ' + fieldValidation + ' debe medir ' + data.split(',').join('x') + ' px')
+              }
+              break
+          }
+        }
+      }
+      if (messages.length) {
+        let messageAlert = '<p>Por favor resolver los siguientes problemas</p>'
+        messageAlert = messageAlert + '<ul>'
+        for (const message of messages) {
+          messageAlert = messageAlert + '<li>' + message + '</li>'
+        }
+        messageAlert = messageAlert + '</ul>'
+        this.$store.commit('setMessage', { show: true, text: messageAlert, color: 'error' })
+      }
+      const validFormArr = Object.values(validForm)
+      return !validFormArr.some(item => item === false)
+    },
     async save () {
-      try {
-        await this.$strapi.create('contacts', this.form)
-        this.$emit('saved')
-      } catch (error) {
-        console.log(error)
-      } finally {
-        this.close()
+      const validForm = await this.validForm()
+      if (validForm) {
+        try {
+          await this.$strapi.create('contacts', this.form)
+          this.$emit('saved')
+        } catch (error) {
+          console.log(error)
+        } finally {
+          this.close()
+        }
       }
     },
     close () {

@@ -47,7 +47,7 @@
                       :src="brand.logo.url"
                       class="white--text align-end"
                     />
-                    <v-fade-transition>
+                    <v-fade-transition v-if="promoIsActive">
                       <v-overlay
                         v-if="hover"
                         absolute
@@ -86,26 +86,6 @@
           />
         </v-carousel>
       </v-dialog>
-      <div class="text-center ma-2">
-        <v-snackbar
-          v-model="message.show"
-          :color="message.color"
-          :top="true"
-          :right="true"
-          :multi-line="true"
-        >
-          {{ message.text }}
-          <template v-slot:action="{ attrs }">
-            <v-btn
-              text
-              v-bind="attrs"
-              @click="message.show = false"
-            >
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
-          </template>
-        </v-snackbar>
-      </div>
     </v-flex>
   </v-layout>
 </template>
@@ -130,15 +110,16 @@ export default {
       plans: [],
       promotions: [],
       dialogPromotions: false,
-      apiUrl: '',
-      message: {
-        show: false,
-        text: '',
-        color: 'info'
-      }
+      apiUrl: ''
     }
   },
   computed: {
+    configuration () {
+      return this.$store.state.configuration
+    },
+    promoIsActive () {
+      return Date.now() >= new Date(this.configuration.start_date).getTime()
+    },
     plansAdsFiles () {
       const plansAds = {}
       this.plans.forEach((plan) => {
@@ -184,7 +165,7 @@ export default {
       if (this.promotions.length) {
         this.dialogPromotions = true
       } else {
-        this.$set(this, 'message', { show: true, text: 'No se encontraron promociones', color: 'info' })
+        this.$store.commit('setMessage', { show: true, text: 'No se encontraron promociones', color: 'info' })
       }
     }
   }

@@ -54,7 +54,8 @@ export default {
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
-    '@nuxtjs/vuetify'
+    '@nuxtjs/vuetify',
+    '@nuxtjs/google-analytics'
   ],
   /*
   ** Nuxt.js modules
@@ -65,7 +66,8 @@ export default {
     '@nuxtjs/pwa',
     // Doc: https://github.com/nuxt/content
     '@nuxt/content',
-    '@nuxtjs/strapi'
+    '@nuxtjs/strapi',
+    'nuxt-facebook-pixel-module'
   ],
   /*
   ** Axios module configuration
@@ -111,5 +113,18 @@ export default {
   server: {
     /*port: 3000,
     host: '0.0.0.0'*/
+  },
+  googleAnalytics: {
+    id: 'UA-118195970-1',
+    debug: {
+      enabled: true,
+      sendHitTask: true
+    }
+  },
+  facebook: {
+    /* module options */
+    track: 'PageView',
+    pixelId: '330854518106170',
+    disabled: false
   }
 }

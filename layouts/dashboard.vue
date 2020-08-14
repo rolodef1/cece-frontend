@@ -51,6 +51,26 @@
     >
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
+    <div class="text-center ma-2">
+      <v-snackbar
+        v-model="message.show"
+        :color="message.color"
+        :top="true"
+        :right="true"
+        :multi-line="true"
+      >
+      <div v-html="message.text" />
+        <template v-slot:action="{ attrs }">
+          <v-btn
+            text
+            v-bind="attrs"
+            @click="message.show = false"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </template>
+      </v-snackbar>
+    </div>
   </v-app>
 </template>
 
@@ -79,6 +99,11 @@ export default {
       right: true,
       rightDrawer: false,
       title: 'Cyberday.ec'
+    }
+  },
+  computed: {
+    message () {
+      return this.$store.state.message
     }
   },
   methods: {

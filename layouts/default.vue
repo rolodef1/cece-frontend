@@ -135,7 +135,7 @@
           :right="true"
           :multi-line="true"
         >
-          {{ message.text }}
+          <div v-html="message.text" />
           <template v-slot:action="{ attrs }">
             <v-btn
               text
@@ -169,9 +169,10 @@ export default {
       res.json()
     )
     this.categories.unshift({ id: 0, Name: 'Todas', Icon: 'mdi-sale' })
-    this.configuration = await fetch(this.apiUrl + '/configuration').then(res =>
+    const configuration = await fetch(this.apiUrl + '/configuration').then(res =>
       res.json()
     )
+    this.$store.commit('setConfiguration', configuration)
   },
   data () {
     return {
@@ -180,16 +181,16 @@ export default {
       showRegisterBtn: true,
       showNewsletterDialog: false,
       categories: [],
-      configuration: null,
-      apiUrl: '',
-      message: {
-        show: false,
-        text: '',
-        color: 'info'
-      }
+      apiUrl: ''
     }
   },
   computed: {
+    configuration () {
+      return this.$store.state.configuration
+    },
+    message () {
+      return this.$store.state.message
+    },
     comunicationsFiles () {
       const comunications = {}
       this.configuration.comunications.forEach((file) => {
@@ -224,11 +225,11 @@ export default {
   },
   methods: {
     registered () {
-      this.$set(this, 'message', { show: true, text: 'Registro exitoso', color: 'success' })
+      this.$store.commit('setMessage', { show: true, text: 'Registro exitoso', color: 'success' })
       this.showRegisterBtn = false
     },
     subscribed () {
-      this.$set(this, 'message', { show: true, text: 'Subscrito de forma exitosa', color: 'success' })
+      this.$store.commit('setMessage', { show: true, text: 'Subscrito de forma exitosa', color: 'success' })
       this.showSuscriberMsg = false
     }
   }

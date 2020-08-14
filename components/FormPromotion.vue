@@ -52,26 +52,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <div class="text-center ma-2">
-      <v-snackbar
-        v-model="message.show"
-        :color="message.color"
-        :top="true"
-        :right="true"
-        :multi-line="true"
-      >
-        <div v-html="message.text" />
-        <template v-slot:action="{ attrs }">
-          <v-btn
-            text
-            v-bind="attrs"
-            @click="message.show = false"
-          >
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </template>
-      </v-snackbar>
-    </div>
   </v-row>
 </template>
 
@@ -91,11 +71,6 @@ export default {
       image: ['required', 'dimensions:220,300'],
       url: ['required'],
       priority: ['required']
-    },
-    message: {
-      show: false,
-      text: '',
-      color: 'info'
     }
   }),
   watch: {
@@ -160,7 +135,7 @@ export default {
           messageAlert = messageAlert + '<li>' + message + '</li>'
         }
         messageAlert = messageAlert + '</ul>'
-        this.$set(this, 'message', { show: true, text: messageAlert, color: 'error' })
+        this.$store.commit('setMessage', { show: true, text: messageAlert, color: 'error' })
       }
       const validFormArr = Object.values(validForm)
       return !validFormArr.some(item => item === false)
