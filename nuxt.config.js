@@ -3,7 +3,7 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   env: {
     baseUrl: process.env.BASE_URL || 'http://localhost:3000',
-    apiUrl: 'https://cyber-cece.herokuapp.com'
+    apiUrl: 'https://api.cyberday.ec'
     //apiUrl: 'http://localhost:1337'
   },
   /*
@@ -42,6 +42,7 @@ export default {
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
+    '~plugins/filters.js'
   ],
   /*
   ** Auto import components
@@ -108,7 +109,7 @@ export default {
   build: {
   },
   strapi: {
-    url: 'https://cyber-cece.herokuapp.com'
+    url: 'https://api.cyberday.ec'
   },
   server: {
     /*port: 3000,

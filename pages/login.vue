@@ -49,14 +49,10 @@ export default {
         this.$strapi.setToken(response.jwt)
         this.$strapi.setUser(response.user)
         this.$router.go({ path: '/dashboard' })
-        console.log(response)
       } catch (err) {
         console.log(err)
       }
     }
-  },
-  mounted () {
-    console.log(this.$strapi.user)
   }
 }
 </script>

@@ -18,11 +18,11 @@
               <a :href="plan.ad_url" target="_blank">
                 <v-img
                   class="d-none d-md-block"
-                  :src="plansAdsFiles[plan.id].ad"
+                  :src="plansAdsFiles[plan.id].ad | changeMediaUrl"
                 />
                 <v-img
                   class="d-flex d-md-none"
-                  :src="plansAdsFiles[plan.id].ad_responsive"
+                  :src="plansAdsFiles[plan.id].ad_responsive | changeMediaUrl"
                 />
               </a>
             </v-flex>
@@ -44,7 +44,7 @@
                     class="transition-swing"
                   >
                     <v-img
-                      :src="brand.logo.url"
+                      :src="brand.logo.url | changeMediaUrl"
                       class="white--text align-end"
                     />
                     <v-fade-transition v-if="promoIsActive">
@@ -78,7 +78,7 @@
           <v-carousel-item
             v-for="promotion in promotions"
             :key="promotion.id"
-            :src="promotion.image.url"
+            :src="promotion.image.url | changeMediaUrl"
             :href="promotion.url"
             target="_blank"
             reverse-transition="fade-transition"
@@ -147,7 +147,7 @@ export default {
       this.plans.forEach((plan) => {
         plansStyles[plan.id] = {
           'background-repeat': 'repeat',
-          background: `url(${this.plansBackgroundsFiles[plan.id].fondo})`
+          background: `url(${this.$options.filters.changeMediaUrl(this.plansBackgroundsFiles[plan.id].fondo)})`
         }
       })
       return plansStyles

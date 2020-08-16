@@ -19,7 +19,7 @@
                   class="transition-swing"
                 >
                   <v-img
-                    :src="brand.logo.url"
+                    :src="brand.logo.url | changeMediaUrl"
                     class="white--text align-end"
                   />
                   <v-fade-transition v-if="promoIsActive">
@@ -53,7 +53,7 @@
         <v-carousel-item
           v-for="promotion in promotions"
           :key="promotion.id"
-          :src="promotion.image.url"
+          :src="promotion.image.url | changeMediaUrl"
           :href="promotion.url"
           target="_blank"
           reverse-transition="fade-transition"

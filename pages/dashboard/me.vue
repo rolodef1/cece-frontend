@@ -15,9 +15,11 @@
                       <v-avatar tile width="80%" height="100%">
                         <v-img
                           v-if="!!brand.logo"
-                          :src="brand.logo.url"
+                          :src="brand.logo.url | changeMediaUrl"
                         />
-                        <v-icon v-else size="64">mdi-account-circle</v-icon>
+                        <v-icon v-else size="64">
+                          mdi-account-circle
+                        </v-icon>
                       </v-avatar>
                     </v-flex>
                     <v-flex xs12 class="text-center">

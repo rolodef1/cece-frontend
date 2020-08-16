@@ -15,11 +15,11 @@
           align="center"
         >
           <span class="black--text">Recibe las mejores ofertas para ti!.</span>
-          <Newsletter :dialog="showNewsletterDialog" @saved="subscribed()" @closed="showNewsletterDialog = false"/>
+          <Newsletter :dialog="showNewsletterDialog" @saved="subscribed()" @closed="showNewsletterDialog = false" />
         </v-alert>
         <v-row>
           <v-col xs="12" sm="6">
-            <v-img :src="configuration.logo.url" class="logo my-0 mx-auto" />
+            <v-img :src="configuration.logo.url | changeMediaUrl" class="logo my-0 mx-auto" />
           </v-col>
           <v-col xs="12" sm="6">
             <div v-if="promoIsActive">
@@ -39,11 +39,11 @@
               </client-only>
             </div>
             <div v-else>
-              <v-img :src="comunicationsFiles.fecha_texto" class="fecha my-0 mx-auto" />
+              <v-img :src="comunicationsFiles.fecha_texto | changeMediaUrl" class="fecha my-0 mx-auto" />
             </div>
           </v-col>
         </v-row>
-        <Register v-if="showRegisterBtn" :dialog="showRegisterDialog" @saved="registered()" @closed="showRegisterDialog = false"/>
+        <Register v-if="showRegisterBtn" :dialog="showRegisterDialog" @saved="registered()" @closed="showRegisterDialog = false" />
       </v-container>
       <v-card class="overflow-hidden">
         <v-app-bar
@@ -69,7 +69,9 @@
               class="tab"
             >
               <span class="purple--text">{{ category.Name }}</span>
-              <v-icon color="purple">{{ category.Icon }}</v-icon>
+              <v-icon color="purple">
+                {{ category.Icon }}
+              </v-icon>
             </v-tab>
           </v-tabs>
         </v-app-bar>
@@ -103,7 +105,7 @@
                       md3
                     >
                       <v-img
-                        :src="coorganizador.src"
+                        :src="coorganizador.src | changeMediaUrl"
                       />
                     </v-flex>
                   </v-layout>
@@ -215,8 +217,8 @@ export default {
     },
     headerStyles () {
       return {
-        '--header-background': `url(${this.backgroundsFiles.fondo})`,
-        '--header-background-responsive': `url(${this.backgroundsFiles.fondo_responsive})`
+        '--header-background': `url(${this.$options.filters.changeMediaUrl(this.backgroundsFiles.fondo)})`,
+        '--header-background-responsive': `url(${this.$options.filters.changeMediaUrl(this.backgroundsFiles.fondo_responsive)})`
       }
     }
   },

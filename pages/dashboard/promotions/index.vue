@@ -31,7 +31,7 @@
                   class="transition-swing"
                 >
                   <v-img
-                    :src="promotion.image.url"
+                    :src="promotion.image.url | changeMediaUrl"
                   />
                   <v-fade-transition>
                     <v-overlay
@@ -39,7 +39,7 @@
                       absolute
                       color="black"
                     >
-                      <v-btn x-small rounded  @click="editPromotion(promotion)">
+                      <v-btn x-small rounded @click="editPromotion(promotion)">
                         Editar
                       </v-btn>
                       <v-btn x-small rounded @click="eliminarPromotion(promotion)">
@@ -100,7 +100,6 @@ export default {
         show: this.showForm,
         edit: this.editForm
       }
-      console.log(bind)
       return bind
     }
   },

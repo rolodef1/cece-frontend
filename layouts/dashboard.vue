@@ -59,7 +59,7 @@
         :right="true"
         :multi-line="true"
       >
-      <div v-html="message.text" />
+        <div v-html="message.text" />
         <template v-slot:action="{ attrs }">
           <v-btn
             text
