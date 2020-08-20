@@ -53,7 +53,7 @@
                         absolute
                         color="black"
                       >
-                        <v-btn x-small rounded :href="brand.url" target="_blank">
+                        <v-btn x-small rounded @click="goToBrand(brand)">
                           Ir a sitio
                         </v-btn>
                         <v-btn x-small rounded @click="showPromotions(brand)">
@@ -68,10 +68,11 @@
           </v-layout>
         </v-container>
       </div>
-      <v-dialog v-model="dialogPromotions" width="400px">
+      <v-dialog v-model="dialogPromotions" width="300px">
         <v-carousel
           cycle
-          widht="400px"
+          widht="300px"
+          height="410px"
           hide-delimiter-background
           show-arrows-on-hover
         >
@@ -79,8 +80,7 @@
             v-for="promotion in promotions"
             :key="promotion.id"
             :src="promotion.image.url | changeMediaUrl"
-            :href="promotion.url"
-            target="_blank"
+            @click="goToPromotion(promotion)"
             reverse-transition="fade-transition"
             transition="fade-transition"
           />
@@ -118,7 +118,7 @@ export default {
       return this.$store.state.configuration
     },
     promoIsActive () {
-      return Date.now() >= new Date(this.configuration.start_date).getTime()
+      return Date.now() >= new Date(this.configuration.start_date).getTime() && Date.now() < new Date(this.configuration.ending_date).getTime()
     },
     plansAdsFiles () {
       const plansAds = {}
@@ -157,6 +157,14 @@ export default {
     this.apiUrl = process.env.apiUrl
   },
   methods: {
+    goToBrand (brand) {
+      this.$ga.event('brand', 'click', brand.Name, brand.id)
+      window.open(brand.url, '_blank')
+    },
+    goToPromotion (promotion) {
+      this.$ga.event('promotion', 'click', promotion.brand.Name, promotion.id)
+      window.open(promotion.url, '_blank')
+    },
     async showPromotions (brand) {
       this.promotions = []
       this.promotions = await fetch(this.apiUrl + '/promotions?brand=' + brand.id + '&_sort=priority:ASC').then(res =>
@@ -167,6 +175,7 @@ export default {
       } else {
         this.$store.commit('setMessage', { show: true, text: 'No se encontraron promociones', color: 'info' })
       }
+      this.$ga.event('brand', 'showPromotion', brand.Name, brand.id)
     }
   }
 }

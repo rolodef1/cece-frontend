@@ -14,29 +14,32 @@
           type="info"
           align="center"
         >
-          <span class="black--text">Recibe las mejores ofertas para ti!.</span>
+          <span class="black--text">¡Recibe las mejores ofertas para ti!</span>
           <Newsletter :dialog="showNewsletterDialog" @saved="subscribed()" @closed="showNewsletterDialog = false" />
         </v-alert>
         <v-row>
           <v-col xs="12" sm="6">
             <v-img :src="configuration.logo.url | changeMediaUrl" class="logo my-0 mx-auto" />
           </v-col>
-          <v-col xs="12" sm="6">
+          <v-col xs="12" sm="6" class="ma-auto">
             <div v-if="promoIsActive">
-              <v-alert
-                dense
-                color="primary"
-                dark
-                icon="mdi-clock"
-                border="left"
-                class="alert-msg-countdown my-0 mx-auto"
-                align="center"
-              >
-                <span>Promociones exclusivas por tiempo limitado</span>
-              </v-alert>
-              <client-only>
-                <flip-countdown :deadline="deadline" :labels="{days:'Dias',hours:'Horas',minutes:'Minutos',seconds:'Segundos'}" class="my-0 mx-auto white--text" />
-              </client-only>
+              <div>
+                <v-alert
+                  dense
+                  color="primary"
+                  dark
+                  icon="mdi-clock"
+                  border="left"
+                  class="alert-msg-countdown my-0 mx-auto"
+                  align="center"
+                >
+                  <span>Promociones exclusivas por tiempo limitado!</span>
+                </v-alert>
+                <client-only>
+                  <flip-countdown :deadline="deadline" :labels="{days:'Dias',hours:'Horas',minutes:'Minutos',seconds:'Segundos'}" class="my-0 mx-auto white--text" />
+                </client-only>
+                <v-img :src="comunicationsFiles.patrocinadores | changeMediaUrl" class="fecha my-0 mx-auto" />
+              </div>
             </div>
             <div v-else>
               <v-img :src="comunicationsFiles.fecha_texto | changeMediaUrl" class="fecha my-0 mx-auto" />
@@ -116,13 +119,14 @@
                   <v-btn
                     class="mx-4 black--text"
                     icon
-                    href="https://www.facebook.com/CybermondayEc/"
+                    href="https://www.facebook.com/CyberDayEC/"
                     target="_blank"
                   >
                     <v-icon size="24px">
                       mdi-facebook
                     </v-icon>
                   </v-btn>
+                  <a href="/Politicas.pdf">Políticas de seguridad</a>
                 </v-card-text>
               </v-card>
             </v-container>
@@ -167,14 +171,14 @@ export default {
     Newsletter
   },
   async fetch () {
-    this.categories = await fetch(this.apiUrl + '/categories?_sort=priority:ASC').then(res =>
-      res.json()
-    )
-    this.categories.unshift({ id: 0, Name: 'Todas', Icon: 'mdi-sale' })
     const configuration = await fetch(this.apiUrl + '/configuration').then(res =>
       res.json()
     )
     this.$store.commit('setConfiguration', configuration)
+    this.categories = await fetch(this.apiUrl + '/categories?_sort=priority:ASC').then(res =>
+      res.json()
+    )
+    this.categories.unshift({ id: 0, Name: 'Todas', Icon: 'mdi-sale' })
   },
   data () {
     return {
@@ -184,6 +188,12 @@ export default {
       showNewsletterDialog: false,
       categories: [],
       apiUrl: ''
+    }
+  },
+  head () {
+    return {
+      title: 'Cyberday.ec',
+      titleTemplate: 'Cyberday.ec'
     }
   },
   computed: {
@@ -201,7 +211,7 @@ export default {
       return comunications
     },
     promoIsActive () {
-      return Date.now() >= new Date(this.configuration.start_date).getTime()
+      return Date.now() >= new Date(this.configuration.start_date).getTime() && Date.now() < new Date(this.configuration.ending_date).getTime()
     },
     deadline () {
       let deadline = this.configuration.ending_date.replace('T', ' ')

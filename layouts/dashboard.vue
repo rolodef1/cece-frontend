@@ -101,6 +101,12 @@ export default {
       title: 'Cyberday.ec'
     }
   },
+  head () {
+    return {
+      title: 'Cyberday.ec',
+      titleTemplate: 'Cyberday.ec'
+    }
+  },
   computed: {
     message () {
       return this.$store.state.message
